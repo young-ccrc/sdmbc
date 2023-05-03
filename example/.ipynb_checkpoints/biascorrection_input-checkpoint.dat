@@ -1,0 +1,36 @@
+Information about observed data
+ 	No of years of data      Start Year
+    		 31                   1982
+Information about raw data used
+     	No of years of data      Start Year
+    		 31                   1982
+Number of variables
+	4
+Specify time scale of data used 0-daily; 1-monthly
+	0
+Number of iterations
+	3
+Missing number identifier (any number equal to or slightly higher than the defined value is ok)
+	-999.0
+Model dimension (longitude, latitude, time)
+	192	145	45292
+Select domain (cells, start from 1 (not a coordinate): minimum x, maximum x, minimum y, maximum y)
+	40	120	20	90
+Slected level
+	1
+Width of one side of moving window for daily data (in days)
+	15
+option whether data follows a usual leap year format(0), or a fixed days in a month format (1)
+	0   0   0    0
+Bias correction models (1: mean, 2: mean and variance, 3: nested, 4: multivariate)
+	4
+Sub-daily correction (0: No, 1: Yes)
+	1
+Parallel computing (set the number of threads to use)
+	1
+Physical lower and upper limits (wind speed (m/s), temperature (K), specific humidity (g/kg) ,SST (K))
+variable Lower limit  Upper limit
+   		1            0.001     190		
+   		1            137     330		
+   		1            0.001     30		
+   		1            270     330		

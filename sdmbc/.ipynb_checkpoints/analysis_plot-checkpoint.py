@@ -22,27 +22,27 @@
 # University of New South Wales
 # 2023-04-17
 # =======================================================================================
-
+import pytest
 import numpy as np
 import xarray as xr
 import pandas as pd
 from scipy.stats import ks_2samp
 
 from user_input import *
-from figurefunction import (
+from sdmbc.figurefunction import (
     assign_w,
     save_figure_3d,
     save_figure_3d_cross,
     save_figure_surface,
     rounder,
-    calculate_ks_matrix
+    calculate_ks_matrix,
 )
 
 
 class AnalysisBC:
     """
     A class to analyze bias-corrected climate model data.
-    
+
     Attributes:
     -----------
     bc_path : str
@@ -56,14 +56,13 @@ class AnalysisBC:
     out_figure_path : str
         The path to save output figures.
     kstest : bool, optional
-        If True, the Kolmogorov-Smirnov (K-S) test will be performed, 
+        If True, the Kolmogorov-Smirnov (K-S) test will be performed,
         otherwise not. Default is False.
     """
-    
+
     def __init__(
         self, bc_path, lat_range, lon_range, startyear, out_figure_path, kstest=False
     ):
-
         self.bc_path = bc_path
         self.lat_range = lat_range
         self.lon_range = lon_range
@@ -71,19 +70,18 @@ class AnalysisBC:
         self.out_figure_path = out_figure_path
         self.kstest = kstest
 
-        
     def figure_atmos(self):
         """
         Analyzes atmospheric variables and generates plots for bias-corrected data.
-        Saves scatter plots of mean, standard deviation, and lag1 auto-correlation 
-        for the atmospheric variables, as well as cross-correlation between them. 
+        Saves scatter plots of mean, standard deviation, and lag1 auto-correlation
+        for the atmospheric variables, as well as cross-correlation between them.
         Optionally, it can also perform the Kolmogorov-Smirnov (K-S) test
         and print the results.
         """
-        
+
         input_gcm_3d = "3d.gcm.1.input.nc"
         input_obs_3d = "3d.obs.1.input.nc"
-        input_bcd_3d = "3d.bcd.1.input.nc"
+        input_bcd_3d = "3d.bcd.1.output.nc"
 
         self.dgcm_3d = xr.open_dataset(f"{self.bc_path}{input_gcm_3d}")
         self.dobs_3d = xr.open_dataset(f"{self.bc_path}{input_obs_3d}")
@@ -132,36 +130,43 @@ class AnalysisBC:
             variable = ["q", "t", "w"]
             # Save 4. The Kolmogorov-Smirnov (K-S) test result for each variable: hus, ta, w
             # Perform KS test on the two samples
-            gks_result = calculate_ks_matrix(e_day, g_day, variable)
-            dks_result = calculate_ks_matrix(e_day, d_day, variable)
+            self.gks_result = calculate_ks_matrix(self.e_day, self.g_day, variable)
+            self.dks_result = calculate_ks_matrix(self.e_day, self.d_day, variable)
 
             for j in range(0, len(variable)):
                 var = variable[j]
                 print("")
-                print(f"Kolmogorov-Smirnov (K-S) test over the domain for the variable: {var}")
+                print(
+                    f"Kolmogorov-Smirnov (K-S) test over the domain for the variable: {var}"
+                )
                 # print(f"For variable {var}")
                 print("")
                 print(f"• KS test for raw GCM")
-                print(f" - {rounder(gks_result[j])}% of the raw GCM are likely to be drawn from the same distribution.")
+                print(
+                    f" - {rounder(self.gks_result[j])}% of the raw GCM are likely to be drawn from the same distribution."
+                )
                 print("")
                 print(f"• KS test for bias-corrected GCM")
-                print(f" - {rounder(dks_result[j])}% of the bias-corrected GCM are likely to be drawn from the same distribution.")
+                print(
+                    f" - {rounder(self.dks_result[j])}% of the bias-corrected GCM are likely to be drawn from the same distribution."
+                )
                 print("")
                 print("• Result")
-                print(f" - The bias-corrected GCM presents {rounder(dks_result[j])-rounder(gks_result[j])}% improvement compared to the raw GCM.")
+                print(
+                    f" - The bias-corrected GCM presents {rounder(self.dks_result[j])-rounder(self.gks_result[j])}% improvement compared to the raw GCM."
+                )
                 print("")
 
-                    
     def figure_surface(self):
         """
         Analyzes surface variables and generates plots for bias-corrected data.
-        Saves contour plots of sea surface temperature (SST) for 
+        Saves contour plots of sea surface temperature (SST) for
         raw GCM, bias-corrected GCM, and observation data.
         """
-        
+
         input_gcm_sst = "sfc.gcm.input.nc"
         input_obs_sst = "sfc.obs.input.nc"
-        input_gcm_sst = "sfc.bcd.input.nc"
+        input_bcd_sst = "sfc.bcd.output.nc"
 
         self.dgcm_sst = xr.open_dataset(f"{self.bc_path}{input_gcm_sst}")
         self.dobs_sst = xr.open_dataset(f"{self.bc_path}{input_obs_sst}")
@@ -169,7 +174,7 @@ class AnalysisBC:
 
         # Reformat time
         times = pd.date_range(
-            "%s-01-01" % (self.startyear), freq="6H", periods=len(self.dgcm_3d.time)
+            "%s-01-01" % (self.startyear), freq="6H", periods=len(self.dgcm_sst.time)
         )
 
         self.dgcm_sst = self.dgcm_sst.update({"time": times})

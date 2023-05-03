@@ -13,9 +13,9 @@ Number of iterations
 Missing number identifier (any number equal to or slightly higher than the defined value is ok)
 	-999.0
 Model dimension (longitude, latitude, time)
-	192	145	45292
+	6	9	45292
 Select domain (cells, start from 1 (not a coordinate): minimum x, maximum x, minimum y, maximum y)
-	40	120	20	90
+	1	6	1	9
 Slected level
 	1
 Width of one side of moving window for daily data (in days)

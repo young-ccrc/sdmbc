@@ -29,7 +29,7 @@ import pandas as pd
 from scipy.stats import ks_2samp
 
 from user_input import *
-from figurefunction import (
+from sdmbc.figurefunction import (
     assign_w,
     save_figure_3d,
     save_figure_3d_cross,
@@ -174,7 +174,7 @@ class AnalysisBC:
 
         # Reformat time
         times = pd.date_range(
-            "%s-01-01" % (self.startyear), freq="6H", periods=len(self.dgcm_3d.time)
+            "%s-01-01" % (self.startyear), freq="6H", periods=len(self.dgcm_sst.time)
         )
 
         self.dgcm_sst = self.dgcm_sst.update({"time": times})

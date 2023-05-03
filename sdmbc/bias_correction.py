@@ -38,8 +38,8 @@ import pytest
 import xarray as xr
 from user_input import *
 import subprocess
-from analysis_plot import AnalysisBC
-from output_reformatter import reformat_and_save_3d, reformat_and_save_2d
+from sdmbc.analysis_plot import AnalysisBC
+from sdmbc.output_reformatter import reformat_and_save_3d, reformat_and_save_2d
 
 
 class BiasCorrection:

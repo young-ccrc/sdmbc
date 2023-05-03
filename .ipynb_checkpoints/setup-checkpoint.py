@@ -19,6 +19,14 @@ setup(
     extras_require={
       'documentation': docs_requires
     },
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+    ],
     package_data={
         "sdmbc": ["main_biascorrection.exe"],
     },

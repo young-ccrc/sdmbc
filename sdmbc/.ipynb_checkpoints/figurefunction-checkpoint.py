@@ -281,7 +281,7 @@ def save_figure_3d(g_day, d_day, e_day, out_figure_path):
     markers = ["s", "+", "^", "o"]
     colors = ["b", "g", "c", "r"]
     label = ["Day", "Month", "Season", "Year"]
-    alpha = 0.3
+    alpha = 0.7
     sz = 15
     limitlist = [-0.4, 1.0]
 
@@ -415,7 +415,7 @@ def save_figure_3d_cross(g_day, d_day, e_day, out_figure_path):
     colors = ["black", "skyblue", "lightcoral", "silver"]
     cc = "viridis"
     label = ["Day", "Month", "Season", "Year"]
-    alpha = 0.3
+    alpha = 0.7
     sz = 15
 
     print("Calculate cross-correlation for 3D")
@@ -555,14 +555,14 @@ def save_figure_surface(g_sst, d_sst, e_sst, out_figure_path):
     d_s = xr.where(e_s == 0, np.nan, d_s)
     e_s = xr.where(g_s == 0, np.nan, e_s)
 
-    gss_bias = g_ss.sst[5:-5, 5:-5] - e_ss.sst[5:-5, 5:-5]
-    dss_bias = d_ss.sst[5:-5, 5:-5] - e_ss.sst[5:-5, 5:-5]
+    gss_bias = g_ss.sst - e_ss.sst
+    dss_bias = d_ss.sst - e_ss.sst
 
-    gsm_bias = g_s.sst[5:-5, 5:-5] - e_s.sst[5:-5, 5:-5]
-    dsm_bias = d_s.sst[5:-5, 5:-5] - e_s.sst[5:-5, 5:-5]
+    gsm_bias = g_s.sst - e_s.sst
+    dsm_bias = d_s.sst - e_s.sst
 
-    gsa_bias = g_sa[5:-5, 5:-5] - e_sa[5:-5, 5:-5]
-    dsa_bias = d_sa[5:-5, 5:-5] - e_sa[5:-5, 5:-5]
+    gsa_bias = g_sa - e_sa
+    dsa_bias = d_sa - e_sa
 
     gss_biasm = np.nanmean(abs(gss_bias))
     dss_biasm = np.nanmean(abs(dss_bias))
@@ -590,18 +590,19 @@ def save_figure_surface(g_sst, d_sst, e_sst, out_figure_path):
     alevels = np.linspace(-0.2, 0.2, 61, endpoint=True, dtype=float)
 
     ticks = [-1, -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1]
-    fsize = 15
+    fsize = 10
+    tsize = 20
 
     # coords
-    lat = e_s["lat"][5:-5].values
-    lon = e_s["lon"][5:-5].values
+    lat = e_s["lat"].values
+    lon = e_s["lon"].values
     titles = ["GCM", "Bias-corrected GCM"]
     title = ["Seasonal M", "Seasonal Std.", "Seasonal Lag1"]
 
     print("Save figures")
 
     # draw figure
-    fig = plt.figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(14, 8))
     for i in range(1, columns * rows + 1):
         ax = fig.add_subplot(rows, columns, i, projection=ccrs.PlateCarree(180))
         if i in [1, 4]:
@@ -628,8 +629,8 @@ def save_figure_surface(g_sst, d_sst, e_sst, out_figure_path):
         ax.coastlines()
         ax.add_feature(cartopy.feature.LAND, edgecolor="black")
 
-        ax.set_xlabel("Longitude", fontsize=10)
-        ax.set_ylabel("Latitude", fontsize=10)
+        ax.set_xlabel("Longitude", fontsize=5)
+        ax.set_ylabel("Latitude", fontsize=5)
 
         gl = ax.gridlines(
             crs=ccrs.PlateCarree(),
@@ -655,28 +656,28 @@ def save_figure_surface(g_sst, d_sst, e_sst, out_figure_path):
         if i < 4:
             if i == 1:
                 # plt.ylabel(titles[0]+'\n ',fontsize=20)
-                plt.ylabel(titles[0] + "\n ", fontsize=fsize, multialignment="center")
-                plt.title(title[i - 1] + "\n ", fontsize=fsize)
+                plt.ylabel(titles[0] + "\n\n\n ", fontsize=fsize, multialignment="center")
+                plt.title(title[i - 1] + "\n ", fontsize=tsize)
                 gl.top_labels = False
                 gl.right_labels = False
                 gl.bottom_labels = False
                 # plt.gca().axes.get_xaxis().set_visible(True)
                 plt.gca().axes.get_yaxis().set_visible(True)
-                ax.set_yticklabels([])
+                ax.set_yticklabels([],fontsize=5)
             else:
-                plt.title(title[i - 1] + "\n ", fontsize=fsize)
+                plt.title(title[i - 1] + "\n ", fontsize=tsize)
                 gl.top_labels = False
                 gl.left_labels = False
                 gl.right_labels = False
                 gl.bottom_labels = False
         if i > 3 and i < 7:
             if i == 4:
-                plt.ylabel(titles[1] + "\n ", fontsize=fsize, multialignment="center")
+                plt.ylabel(titles[1] + "\n\n\n ", fontsize=fsize, multialignment="center")
                 gl.top_labels = False
                 gl.right_labels = False
                 # gl.bottom_labels = False
                 plt.gca().axes.get_yaxis().set_visible(True)
-                ax.set_yticklabels([])
+                ax.set_yticklabels([],fontsize=5)
             else:
                 gl.top_labels = False
                 gl.right_labels = False
@@ -685,7 +686,7 @@ def save_figure_surface(g_sst, d_sst, e_sst, out_figure_path):
 
         if i == 4:
             # color bar location [left, bottom, width, height]
-            cbaxes = fig.add_axes([0.1255, 0.1, 0.255, 0.01])
+            cbaxes = fig.add_axes([0.1255, 0.05, 0.255, 0.01])
             cbar = fig.colorbar(
                 cf,
                 cax=cbaxes,
@@ -695,7 +696,7 @@ def save_figure_surface(g_sst, d_sst, e_sst, out_figure_path):
             )
             cbar.set_ticklabels([-2.0, -1.0, 0, 1.0, 2.0])
         elif i == 5:
-            cbaxes = fig.add_axes([0.3855, 0.1, 0.255, 0.01])
+            cbaxes = fig.add_axes([0.3855, 0.05, 0.255, 0.01])
             cbar = fig.colorbar(
                 cf,
                 cax=cbaxes,
@@ -706,7 +707,7 @@ def save_figure_surface(g_sst, d_sst, e_sst, out_figure_path):
             cbar.set_ticklabels([-0.5, -0.25, 0, 0.25, 0.5])
 
         elif i == 6:
-            cbaxes = fig.add_axes([0.6455, 0.1, 0.255, 0.01])
+            cbaxes = fig.add_axes([0.6455, 0.05, 0.255, 0.01])
             cbar = fig.colorbar(
                 cf,
                 cax=cbaxes,
@@ -716,7 +717,7 @@ def save_figure_surface(g_sst, d_sst, e_sst, out_figure_path):
             )
             cbar.set_ticklabels([-0.2, -0.1, 0, 0.1, 0.2])
 
-    plt.subplots_adjust(hspace=0.02, wspace=0.02)
+    plt.subplots_adjust(hspace=0.08, wspace=0.02)
 
     var_surface = "sst"
     f_surface_name = "seasonal_stats_all"

@@ -38,8 +38,8 @@ no_of_iterations = 3      # number of bias correction iteration, three are recom
 missing_value = -999.0    # missing value identifier
 
 # Selected area
-lon_range = [40,120]      # should be integer, indicating grid cells (x-axis), not coordinates
-lat_range = [20,90]       # should be integer, indicating grid cells (y-axis), not coordinates 
+lon_range = [1,6]      # should be integer, indicating grid cells (x-axis), not coordinates
+lat_range = [1,9]       # should be integer, indicating grid cells (y-axis), not coordinates 
 
 moving_window = 15              # centred moving window if input data is at daily time scale
 correction_model = 4            # 1: mean, 2: mean and variance, 3: nested, 4: multivariate

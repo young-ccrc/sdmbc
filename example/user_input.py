@@ -53,5 +53,6 @@ lower_limit = [0.001,137,0.001,270]
 correction = 1             # compute bias correction, Yes: 1, No: 0
 draw_figure = 1            # draw sample statistics of the outputs, Yes: 1, No: 0
 reformat_to_original = 0   # reformat the output files to original gcm form, Yes: 1, No: 0
+                           # this should be 0 until the bias correction is done for all of the vertical levels, as the vertical levels should be the same as those of original GCM file.
 
 #======================== User inputs end =========================

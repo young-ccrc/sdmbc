@@ -18,6 +18,7 @@ setup(
     packages=find_packages(),
     license='LICENSE',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     install_requires=install_requires,
     extras_require={
       'documentation': docs_requires

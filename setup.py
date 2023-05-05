@@ -6,6 +6,9 @@ with open("requirements.txt") as f:
 with open("requirements_doc.txt") as f:
     docs_requires = f.read().splitlines()
     
+with open('README.md', 'r', encoding='utf-8') as f:
+    long_description = f.read()
+    
 setup(
     name="sdmbc",
     version="0.1.1",
@@ -14,7 +17,7 @@ setup(
     author_email="youngil.kim@student.unsw.edu.au",
     packages=find_packages(),
     license='LICENSE',
-    long_description=open('README.md').read(),
+    long_description=long_description,
     install_requires=install_requires,
     extras_require={
       'documentation': docs_requires

@@ -198,6 +198,7 @@ class BiasCorrection:
                 print("K-S test has been included")
                 statistics = AnalysisBC(
                     bc_path,
+                    level,
                     lat_range,
                     lon_range,
                     startyear,
@@ -208,6 +209,7 @@ class BiasCorrection:
                 print("K-S test has not been included")
                 statistics = AnalysisBC(
                     bc_path,
+                    level,
                     lat_range,
                     lon_range,
                     startyear,

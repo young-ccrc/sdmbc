@@ -61,9 +61,10 @@ class AnalysisBC:
     """
 
     def __init__(
-        self, bc_path, lat_range, lon_range, startyear, out_figure_path, kstest=False
+        self, bc_path, level, lat_range, lon_range, startyear, out_figure_path, kstest=False
     ):
         self.bc_path = bc_path
+        self.level = level
         self.lat_range = lat_range
         self.lon_range = lon_range
         self.startyear = startyear
@@ -78,14 +79,14 @@ class AnalysisBC:
         Optionally, it can also perform the Kolmogorov-Smirnov (K-S) test
         and print the results.
         """
+        
+        input_gcm_3d = self.bc_path + "3d.gcm." + str(self.level) + ".input.nc"
+        input_obs_3d = self.bc_path + "3d.obs." + str(self.level) + ".input.nc"
+        input_bcd_3d = self.bc_path + "3d.bcd." + str(self.level) + ".output.nc"
 
-        input_gcm_3d = "3d.gcm.1.input.nc"
-        input_obs_3d = "3d.obs.1.input.nc"
-        input_bcd_3d = "3d.bcd.1.output.nc"
-
-        self.dgcm_3d = xr.open_dataset(f"{self.bc_path}{input_gcm_3d}")
-        self.dobs_3d = xr.open_dataset(f"{self.bc_path}{input_obs_3d}")
-        self.dbcd_3d = xr.open_dataset(f"{self.bc_path}{input_bcd_3d}")
+        self.dgcm_3d = xr.open_dataset(input_gcm_3d)
+        self.dobs_3d = xr.open_dataset(input_obs_3d)
+        self.dbcd_3d = xr.open_dataset(input_bcd_3d)
 
         # Reformat time
         times = pd.date_range(

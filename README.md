@@ -21,7 +21,7 @@ SDMBC is an open-source Python pacakge for correcting the full atmospheric field
 ## 1. Acknowledgements
 [RETURN TO TOP](#toc)
 
-* SDMBC stands for the Sub-Daily Multivariate Bias Correction and was developed by [Youngil Kim](https://github.com/young-ccrc/). Theoretical support was provided by [Ashish Sharma](https://www.unsw.edu.au/staff/ashish-sharma) and [Jason Evans](https://www.unsw.edu.au/staff/jason-evans).
+* SDMBC refers to Sub-Daily Multivariate Bias Correction and was developed by [Youngil Kim](https://github.com/young-ccrc/). The theoretical support for this project was provided by [Jason Evans](https://www.unsw.edu.au/staff/jason-evans) and [Ashish Sharma](https://www.unsw.edu.au/staff/ashish-sharma).
 
 * The design of SDMBC was influenced by [Multivariate Bias Correction (MBC) R pakcage](https://www.sciencedirect.com/science/article/pii/S1364815217309684#ec-research-data), which adjusts for the biases in inter-variable relationships of climate model outputs across multiple time scales.
 
@@ -30,16 +30,21 @@ SDMBC is an open-source Python pacakge for correcting the full atmospheric field
 <br/>
 
 <a name="background"></a>
-## 1. Background to SDMBC package
+## 2. Background to SDMBC package
 [RETURN TO TOP](#toc)
 
-Various bias correction techniques have been used to correct RCM input boundary conditions, ranging from simple scaling to more complex approaches that mimic observed multi-scale relationships in simulations. Studies have shown that increasingly sophisticated techniques that correct auto- and cross-dependence attributes can significantly improve rainfall characteristics, particularly for variability and extremes. Multivariate bias correction of RCM input boundary conditions has also been demonstrated to better represent compound events, which can be defined as a combination of extremes and hazards. However, while correcting the physical relationships between variables is important to reduce errors in simulated extreme events, daily and longer-term bias correction may impact the simulation of sub-daily rainfall, assuming that diurnal patterns are adequately modeled by the global climate model (GCM). Therefore, a novel approach that corrects multivariate relationships between variables at a sub-daily time scale was developed. RCM simulations with sub-daily multivariate bias-corrected boundary conditions demonstrated improved performance particularly for extreme events. However, the bias correction process requires complex mathematical formulations and large matrices, making it challenging for users to apply the method. None of studies have developed software to support this process.
-To address this issue, we developed the first software package for sub-daily multivariate bias correction, called Sub-Daily Multivariate Bias Correction (SDMBC) for Dynamical Downscaling, in the Python environment. The approach has been proposed by (Kim 2023, under review), and is generally more effective at representing the range of diurnal rainfall magnitude compared to multivariate bias correction and corrects the full atmospheric fields and sea surface temperature of GCM datasets prior to dynamical downscaling. This software package simplifies the implementation of the bias correction process.
+Various bias correction techniques have been used to correct RCM input boundary conditions, ranging from simple scaling to more complex approaches that mimic observed multi-scale relationships in simulations. Studies have shown that increasingly sophisticated techniques that correct auto- and cross-dependence attributes can significantly improve rainfall characteristics, particularly for variability and extremes. Multivariate bias correction of RCM input boundary conditions has also been demonstrated to better represent compound events, which can be defined as a combination of extremes and hazards. However, while correcting the physical relationships between variables is important to reduce errors in simulated extreme events, daily and longer-term bias correction may impact the simulation of sub-daily rainfall, assuming that diurnal patterns are adequately modeled by the global climate model (GCM).
+
+Therefore, a novel approach that corrects multivariate relationships between variables at a sub-daily time scale was developed. RCM simulations with sub-daily multivariate bias-corrected boundary conditions demonstrated improved performance particularly for extreme events. However, the bias correction process requires complex mathematical formulations and large matrices, making it challenging for users to apply the method. None of studies have developed software to support this process.
+
+To address this issue, we developed the first software package for sub-daily multivariate bias correction, called Sub-Daily Multivariate Bias Correction (SDMBC) for Dynamical Downscaling, in the Python environment. The approach has been proposed by (Kim 2023, under review), and is generally more effective at representing the range of diurnal rainfall magnitude compared to multivariate bias correction and corrects the full atmospheric fields and sea surface temperature of GCM datasets prior to dynamical downscaling.
+
+This software package simplifies the implementation of the bias correction process.
 
 <br/>
 
 <a name="installing"></a>
-## 1. Installation
+## 3. Installation
 [RETURN TO TOP](#toc)
 
 The following sections describe the software requirements and the process of installing SDMBC.
@@ -47,8 +52,8 @@ The following sections describe the software requirements and the process of ins
 ### 3.1 Software requirements (prerequisite):
 * [Python](https://www.python.org/downloads/) version 3 or later.
 * To generate output stastitics figures
-   * the [*basemap*](https://matplotlib.org/basemap/users/installing.html)
-   * the [*cartopy*](https://scitools.org.uk/cartopy/docs/latest/installing.html)
+   * The [*basemap*](https://matplotlib.org/basemap/users/installing.html)
+   * The [*cartopy*](https://scitools.org.uk/cartopy/docs/latest/installing.html)
 
 <br/>
 
@@ -78,7 +83,8 @@ python setup.py install
 ```
 
 * Recommend to install this package under new python or conda environment.
-Create and activate new conda environment
+
+To create and activate new conda environment,
 ```
 conda create -n sdmbc python=3.10
 conda activate sdmbc
@@ -87,37 +93,42 @@ conda activate sdmbc
 <br/>
 
 <a name="inputdata"></a>
-## 1. Input data
+## 4. Input data
 [RETURN TO TOP](#toc)
 
-Users need to modify the â€˜user_input.pyâ€™ file, which includes the input data information and bias correction options. The input files consist of global climate model (GCM) data to be bias-corrected and reanalysis data used here as an 'observation'. It should be noted that the reanalysis data should be properly interpolated to match the GCM resolutions prior to being used as inputs. To conduct bias correction, a minimum of 31 years simulation periods are recommended to correct climatological statistics in consideration of a 1-year spin-up period for RCM simulations.
+Users need to modify the ‘user_input.py’ file, which contains input data information and bias correction options. The input files include global climate model (GCM) data that needs to be bias-corrected and reanalysis data used as observations. It should be noted that the reanalysis data must be properly interpolated to match the GCM resolutions before being used as inputs.
+
+To conduct bias correction, a simluation period of a minimum of 31 years is recommended to correct climatological statistics, considering a 1-year spin-up period for RCM simulations.
 
 Following files must be in the same folder.
 
-* user_input.py
-* main_biascorrection.exe
-* input files
-   * 3d.gcm.%level%.input.nc: three-dimensional atmospheric variables of GCM, including specific humidity (q), temperature (t), and zonal and meridional wind components (u and v)
-   * 3d.obs.%level%.input.nc: three-dimensional atmospheric variables of observation, including specific humidity (q), temperature (t), zonal and meridional wind components (u and v)
-   * sfc.gcm.input.nc: two-dimensional surface variable of GCM including sea surface temperatrue (sst)
-   * sfc.obs.input.nc: two-dimensional surface variable of observation including sea surface temperatrue (sst)
+* *user_input.py*
+* *main_biascorrection.exe*
+* Input files
+   * *3d.gcm.%level%.input.nc*: three-dimensional atmospheric variables of GCM, including specific humidity (q), temperature (t), and zonal and meridional wind components (u and v)
+   * *3d.obs.%level%.input.nc*: three-dimensional atmospheric variables of observation, including specific humidity (q), temperature (t), zonal and meridional wind components (u and v)
+   * *sfc.gcm.input.nc*: two-dimensional surface variable of GCM including sea surface temperatrue (sst)
+   * *sfc.obs.input.nc*: two-dimensional surface variable of observation including sea surface temperatrue (sst)
 
 
 <br/>
 
 <a name="outputdata"></a>
-## 1. Output data
+## 5. Output data
 [RETURN TO TOP](#toc)
 
-This package provides two types of bias-corrected outputs: three-dimensional atmospheric variables at each vertical level and sea surface temperature. If bias correction performed properly, key statistics of the outputs within the selected domain will be generated. The results provide a model performance evaluation at different time scales: day, month, season, and year. The statistics cover climatological mean, standard deviation, lag1 auto-correlation, cross-correlation, mean absolute bias of sea surface temperature, and distribution at a sub-daily time scale.
-* output files
-   * 3d.bcd.%level%.output.nc: bias-corrected specific humidity (q), temperature (t), and zonal and meridional wind components (u and v)
-   * sfc.bcd.output.nc: bias-corrected sea surface temperatrue (sst)
+This package provides two types of bias-corrected outputs: three-dimensional atmospheric variables at each vertical level and sea surface temperature. If bias correction performed correctly, the package generates key statistics of the outputs within the selected domain.
+
+These results provide an evaluation of model performance at different time scales, including climatological mean, standard deviation, lag1 auto-correlation, cross-correlation, mean absolute bias of sea surface temperature, and distribution at a sub-daily time scale.
+
+* Output files
+   * *3d.bcd.%level%.output.nc*: bias-corrected specific humidity (q), temperature (t), and zonal and meridional wind components (u and v)
+   * *sfc.bcd.output.nc*: bias-corrected sea surface temperatrue (sst)
 
 <br/>
 
 <a name="tutorial"></a>
-## 1. Totorial
+## 6. Totorial
 [RETURN TO TOP](#toc)
 
 Jupyter Notebook example, how to run this packge, can be found in example folder.
@@ -125,7 +136,7 @@ Jupyter Notebook example, how to run this packge, can be found in example folder
 <br/>
 
 <a name="getintouch"></a>
-## 1. Get in touch
+## 7. Get in touch
 [RETURN TO TOP](#toc)
 
 The authors welcome any contributions to code development going forward. youngil.kim@student.unsw.edu.au

@@ -125,6 +125,8 @@ These results provide an evaluation of model performance at different time scale
    * *3d.bcd.%level%.output.nc*: bias-corrected specific humidity (q), temperature (t), and zonal and meridional wind components (u and v)
    * *sfc.bcd.output.nc*: bias-corrected sea surface temperatrue (sst)
 
+Once SDMBC has been applied to all vertical levels, the resulting outputs can be reformatted according to the CMIP6 global attribute description. If users set the reformat option to 1 in 'user_input.py', the package will automatically generate bias-corrected GCM datasets that have the same format as the original data.
+
 <br/>
 
 <a name="tutorial"></a>

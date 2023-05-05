@@ -8,7 +8,7 @@ with open("requirements_doc.txt") as f:
     
 setup(
     name="sdmbc",
-    version="0.1",
+    version="0.1.1",
     description="Sub-Daily Multivariate Bias Correction (SDMBC)",
     author="Youngil Kim",
     author_email="youngil.kim@student.unsw.edu.au",

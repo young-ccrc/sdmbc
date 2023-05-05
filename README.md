@@ -96,7 +96,7 @@ conda activate sdmbc
 ## 4. Input data
 [RETURN TO TOP](#toc)
 
-Users need to modify the ‘user_input.py’ file, which contains input data information and bias correction options. The input files include global climate model (GCM) data that needs to be bias-corrected and reanalysis data used as observations. It should be noted that the reanalysis data must be properly interpolated to match the GCM resolutions before being used as inputs.
+Users need to modify the 'user_input.py' file, which contains input data information and bias correction options. The input files include global climate model (GCM) data that needs to be bias-corrected and reanalysis data used as observations. It should be noted that the reanalysis data must be properly interpolated to match the GCM resolutions before being used as inputs.
 
 To conduct bias correction, a simluation period of a minimum of 31 years is recommended to correct climatological statistics, considering a 1-year spin-up period for RCM simulations.
 
@@ -107,8 +107,8 @@ Following files must be in the same folder.
 * Input files
    * *3d.gcm.%level%.input.nc*: three-dimensional atmospheric variables of GCM, including specific humidity (q), temperature (t), and zonal and meridional wind components (u and v)
    * *3d.obs.%level%.input.nc*: three-dimensional atmospheric variables of observation, including specific humidity (q), temperature (t), zonal and meridional wind components (u and v)
-   * *sfc.gcm.input.nc*: two-dimensional surface variable of GCM including sea surface temperatrue (sst)
-   * *sfc.obs.input.nc*: two-dimensional surface variable of observation including sea surface temperatrue (sst)
+   * *sfc.gcm.input.nc*: two-dimensional surface variable of GCM, including sea surface temperatrue (sst)
+   * *sfc.obs.input.nc*: two-dimensional surface variable of observation, including sea surface temperatrue (sst)
 
 
 <br/>

@@ -130,7 +130,7 @@ Once SDMBC has been applied to all vertical levels, the resulting outputs can be
 <br/>
 
 <a name="tutorial"></a>
-## 6. Totorial
+## 6. Tutorial
 [RETURN TO TOP](#toc)
 
 Jupyter Notebook example, how to run this packge, can be found in example folder.

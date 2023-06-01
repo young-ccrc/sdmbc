@@ -141,6 +141,6 @@ Jupyter Notebook example, how to run this packge, can be found in example folder
 ## 7. Get in touch
 [RETURN TO TOP](#toc)
 
-The authors welcome any contributions to code development going forward. youngil.kim@student.unsw.edu.au
+The authors welcome any contributions to code development going forward. youngil.kim@unsw.edu.au
 
 <br/>
